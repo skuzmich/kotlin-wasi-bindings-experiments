@@ -1,2 +1,3 @@
-# kotlin-wasi-bindings
-Kotlin/Wasm WASI bindings
+# Kotlin/Wasm Wasi Bindings Hacks
+
+Experimenting with linear memory interop in Kotlin/Wasm
