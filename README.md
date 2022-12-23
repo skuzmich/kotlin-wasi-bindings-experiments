@@ -9,3 +9,11 @@ Needs a branch https://github.com/JetBrains/kotlin/tree/skuzmich/wit-prototyping
 ```
 ~/kotlin $ ./gradlew install --parallel
 ```
+
+
+# Testing
+
+
+```
+./gradlew wasmTest
+```
