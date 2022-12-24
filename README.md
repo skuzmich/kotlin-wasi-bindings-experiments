@@ -1,8 +1,8 @@
-# Kotlin/Wasm Wasi Bindings Hacks
+# Kotlin/Wasm WASI Bindings Experiments
 
-Experimenting with linear memory interop in Kotlin/Wasm
+Uses (in-progress) unsafe linear memory APSs `kotlin.wasm.unsafe.*` and annotation `kotlin.WasmImport`.
 
-Generated from https://github.com/skuzmich/wasi-witx-kotlin-hacks/blob/kotlin-hacks/crates/witx-bindgen/src/lib.rs
+Bindings are generated from https://github.com/skuzmich/wasi-witx-kotlin-hacks/blob/kotlin-hacks/crates/witx-bindgen/src/lib.rs for `wasi_snapshot_preview1` version of WASI API.
 
 Needs a branch https://github.com/JetBrains/kotlin/tree/skuzmich/wit-prototyping installed to maven local:
 
