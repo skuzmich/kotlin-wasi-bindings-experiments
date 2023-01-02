@@ -280,16 +280,16 @@ internal data class __unsafe__Iovec(
     var buf_len: Size,
 )
 
-internal fun __load___unsafe__Iovec(ptr: Int): __unsafe__Iovec {
+internal fun __load___unsafe__Iovec(ptr: Pointer): __unsafe__Iovec {
   return __unsafe__Iovec(
-      loadInt(ptr + 0),
-      loadInt(ptr + 4),
+      Pointer((ptr + 0).loadInt().toUInt()),
+      (ptr + 4).loadInt(),
   )
 }
 
-internal fun __store___unsafe__Iovec(x: __unsafe__Iovec, ptr: Int) {
-  storeInt(ptr + 0, x.buf)
-  storeInt(ptr + 4, x.buf_len)
+internal fun __store___unsafe__Iovec(x: __unsafe__Iovec, ptr: Pointer) {
+  (ptr + 0).storeInt(x.buf.address.toInt())
+  (ptr + 4).storeInt(x.buf_len)
 }
 
 internal data class __unsafe__Ciovec(
@@ -299,16 +299,16 @@ internal data class __unsafe__Ciovec(
     var buf_len: Size,
 )
 
-internal fun __load___unsafe__Ciovec(ptr: Int): __unsafe__Ciovec {
+internal fun __load___unsafe__Ciovec(ptr: Pointer): __unsafe__Ciovec {
   return __unsafe__Ciovec(
-      loadInt(ptr + 0),
-      loadInt(ptr + 4),
+      Pointer((ptr + 0).loadInt().toUInt()),
+      (ptr + 4).loadInt(),
   )
 }
 
-internal fun __store___unsafe__Ciovec(x: __unsafe__Ciovec, ptr: Int) {
-  storeInt(ptr + 0, x.buf)
-  storeInt(ptr + 4, x.buf_len)
+internal fun __store___unsafe__Ciovec(x: __unsafe__Ciovec, ptr: Pointer) {
+  (ptr + 0).storeInt(x.buf.address.toInt())
+  (ptr + 4).storeInt(x.buf_len)
 }
 
 internal typealias __unsafe__IovecArray = List<__unsafe__Iovec>
@@ -365,20 +365,20 @@ data class Dirent(
     var d_type: Filetype,
 )
 
-internal fun __load_Dirent(ptr: Int): Dirent {
+internal fun __load_Dirent(ptr: Pointer): Dirent {
   return Dirent(
-      loadLong(ptr + 0),
-      loadLong(ptr + 8),
-      loadInt(ptr + 16),
-      Filetype.values()[loadByte(ptr + 20).toInt()],
+      (ptr + 0).loadLong(),
+      (ptr + 8).loadLong(),
+      (ptr + 16).loadInt(),
+      Filetype.values()[(ptr + 20).loadByte().toInt()],
   )
 }
 
-internal fun __store_Dirent(x: Dirent, ptr: Int) {
-  storeLong(ptr + 0, x.d_next)
-  storeLong(ptr + 8, x.d_ino)
-  storeInt(ptr + 16, x.d_namlen)
-  storeByte(ptr + 20, x.d_type.ordinal.toByte())
+internal fun __store_Dirent(x: Dirent, ptr: Pointer) {
+  (ptr + 0).storeLong(x.d_next)
+  (ptr + 8).storeLong(x.d_ino)
+  (ptr + 16).storeInt(x.d_namlen)
+  (ptr + 20).storeByte(x.d_type.ordinal.toByte())
 }
 
 enum class Advice {
@@ -434,20 +434,20 @@ data class Fdstat(
     var fs_rights_inheriting: Rights,
 )
 
-internal fun __load_Fdstat(ptr: Int): Fdstat {
+internal fun __load_Fdstat(ptr: Pointer): Fdstat {
   return Fdstat(
-      Filetype.values()[loadByte(ptr + 0).toInt()],
-      loadShort(ptr + 2),
-      loadLong(ptr + 8),
-      loadLong(ptr + 16),
+      Filetype.values()[(ptr + 0).loadByte().toInt()],
+      (ptr + 2).loadShort(),
+      (ptr + 8).loadLong(),
+      (ptr + 16).loadLong(),
   )
 }
 
-internal fun __store_Fdstat(x: Fdstat, ptr: Int) {
-  storeByte(ptr + 0, x.fs_filetype.ordinal.toByte())
-  storeShort(ptr + 2, x.fs_flags)
-  storeLong(ptr + 8, x.fs_rights_base)
-  storeLong(ptr + 16, x.fs_rights_inheriting)
+internal fun __store_Fdstat(x: Fdstat, ptr: Pointer) {
+  (ptr + 0).storeByte(x.fs_filetype.ordinal.toByte())
+  (ptr + 2).storeShort(x.fs_flags)
+  (ptr + 8).storeLong(x.fs_rights_base)
+  (ptr + 16).storeLong(x.fs_rights_inheriting)
 }
 
 typealias Device = Long
@@ -509,28 +509,28 @@ data class Filestat(
     var ctim: Timestamp,
 )
 
-internal fun __load_Filestat(ptr: Int): Filestat {
+internal fun __load_Filestat(ptr: Pointer): Filestat {
   return Filestat(
-      loadLong(ptr + 0),
-      loadLong(ptr + 8),
-      Filetype.values()[loadByte(ptr + 16).toInt()],
-      loadLong(ptr + 24),
-      loadLong(ptr + 32),
-      loadLong(ptr + 40),
-      loadLong(ptr + 48),
-      loadLong(ptr + 56),
+      (ptr + 0).loadLong(),
+      (ptr + 8).loadLong(),
+      Filetype.values()[(ptr + 16).loadByte().toInt()],
+      (ptr + 24).loadLong(),
+      (ptr + 32).loadLong(),
+      (ptr + 40).loadLong(),
+      (ptr + 48).loadLong(),
+      (ptr + 56).loadLong(),
   )
 }
 
-internal fun __store_Filestat(x: Filestat, ptr: Int) {
-  storeLong(ptr + 0, x.dev)
-  storeLong(ptr + 8, x.ino)
-  storeByte(ptr + 16, x.filetype.ordinal.toByte())
-  storeLong(ptr + 24, x.nlink)
-  storeLong(ptr + 32, x.size)
-  storeLong(ptr + 40, x.atim)
-  storeLong(ptr + 48, x.mtim)
-  storeLong(ptr + 56, x.ctim)
+internal fun __store_Filestat(x: Filestat, ptr: Pointer) {
+  (ptr + 0).storeLong(x.dev)
+  (ptr + 8).storeLong(x.ino)
+  (ptr + 16).storeByte(x.filetype.ordinal.toByte())
+  (ptr + 24).storeLong(x.nlink)
+  (ptr + 32).storeLong(x.size)
+  (ptr + 40).storeLong(x.atim)
+  (ptr + 48).storeLong(x.mtim)
+  (ptr + 56).storeLong(x.ctim)
 }
 
 typealias Userdata = Long
@@ -567,16 +567,16 @@ data class EventFdReadwrite(
     var flags: Eventrwflags,
 )
 
-internal fun __load_EventFdReadwrite(ptr: Int): EventFdReadwrite {
+internal fun __load_EventFdReadwrite(ptr: Pointer): EventFdReadwrite {
   return EventFdReadwrite(
-      loadLong(ptr + 0),
-      loadShort(ptr + 8),
+      (ptr + 0).loadLong(),
+      (ptr + 8).loadShort(),
   )
 }
 
-internal fun __store_EventFdReadwrite(x: EventFdReadwrite, ptr: Int) {
-  storeLong(ptr + 0, x.nbytes)
-  storeShort(ptr + 8, x.flags)
+internal fun __store_EventFdReadwrite(x: EventFdReadwrite, ptr: Pointer) {
+  (ptr + 0).storeLong(x.nbytes)
+  (ptr + 8).storeShort(x.flags)
 }
 
 data class Event(
@@ -593,24 +593,24 @@ data class Event(
     var fd_readwrite: EventFdReadwrite,
 )
 
-internal fun __load_Event(ptr: Int): Event {
+internal fun __load_Event(ptr: Pointer): Event {
   return Event(
-      loadLong(ptr + 0),
-      Errno.values()[loadShort(ptr + 8).toInt()],
-      Eventtype.values()[loadByte(ptr + 10).toInt()],
+      (ptr + 0).loadLong(),
+      Errno.values()[(ptr + 8).loadShort().toInt()],
+      Eventtype.values()[(ptr + 10).loadByte().toInt()],
       EventFdReadwrite(
-          loadLong(ptr + 16 + 0),
-          loadShort(ptr + 16 + 8),
+          (ptr + 16 + 0).loadLong(),
+          (ptr + 16 + 8).loadShort(),
       ),
   )
 }
 
-internal fun __store_Event(x: Event, ptr: Int) {
-  storeLong(ptr + 0, x.userdata)
-  storeShort(ptr + 8, x.error.ordinal.toShort())
-  storeByte(ptr + 10, x.type.ordinal.toByte())
-  storeLong(ptr + 16 + 0, x.fd_readwrite.nbytes)
-  storeShort(ptr + 16 + 8, x.fd_readwrite.flags)
+internal fun __store_Event(x: Event, ptr: Pointer) {
+  (ptr + 0).storeLong(x.userdata)
+  (ptr + 8).storeShort(x.error.ordinal.toShort())
+  (ptr + 10).storeByte(x.type.ordinal.toByte())
+  (ptr + 16 + 0).storeLong(x.fd_readwrite.nbytes)
+  (ptr + 16 + 8).storeShort(x.fd_readwrite.flags)
 }
 
 typealias Subclockflags = Short
@@ -639,20 +639,20 @@ data class SubscriptionClock(
     var flags: Subclockflags,
 )
 
-internal fun __load_SubscriptionClock(ptr: Int): SubscriptionClock {
+internal fun __load_SubscriptionClock(ptr: Pointer): SubscriptionClock {
   return SubscriptionClock(
-      Clockid.values()[loadInt(ptr + 0).toInt()],
-      loadLong(ptr + 8),
-      loadLong(ptr + 16),
-      loadShort(ptr + 24),
+      Clockid.values()[(ptr + 0).loadInt().toInt()],
+      (ptr + 8).loadLong(),
+      (ptr + 16).loadLong(),
+      (ptr + 24).loadShort(),
   )
 }
 
-internal fun __store_SubscriptionClock(x: SubscriptionClock, ptr: Int) {
-  storeInt(ptr + 0, x.id.ordinal.toInt())
-  storeLong(ptr + 8, x.timeout)
-  storeLong(ptr + 16, x.precision)
-  storeShort(ptr + 24, x.flags)
+internal fun __store_SubscriptionClock(x: SubscriptionClock, ptr: Pointer) {
+  (ptr + 0).storeInt(x.id.ordinal.toInt())
+  (ptr + 8).storeLong(x.timeout)
+  (ptr + 16).storeLong(x.precision)
+  (ptr + 24).storeShort(x.flags)
 }
 
 data class SubscriptionFdReadwrite(
@@ -660,14 +660,14 @@ data class SubscriptionFdReadwrite(
     var file_descriptor: Fd,
 )
 
-internal fun __load_SubscriptionFdReadwrite(ptr: Int): SubscriptionFdReadwrite {
+internal fun __load_SubscriptionFdReadwrite(ptr: Pointer): SubscriptionFdReadwrite {
   return SubscriptionFdReadwrite(
-      loadInt(ptr + 0),
+      (ptr + 0).loadInt(),
   )
 }
 
-internal fun __store_SubscriptionFdReadwrite(x: SubscriptionFdReadwrite, ptr: Int) {
-  storeInt(ptr + 0, x.file_descriptor)
+internal fun __store_SubscriptionFdReadwrite(x: SubscriptionFdReadwrite, ptr: Pointer) {
+  (ptr + 0).storeInt(x.file_descriptor)
 }
 
 sealed class SubscriptionU {
@@ -686,29 +686,29 @@ data class Subscription(
     var u: SubscriptionU,
 )
 
-internal fun __load_Subscription(ptr: Int): Subscription {
+internal fun __load_Subscription(ptr: Pointer): Subscription {
   return Subscription(
-      loadLong(ptr + 0),
-      when (loadByte(ptr + 8).toInt()) {
+      (ptr + 0).loadLong(),
+      when ((ptr + 8).loadByte().toInt()) {
         0 -> {
           SubscriptionU.clock(
               SubscriptionClock(
-                  Clockid.values()[loadInt(ptr + 8 + 8 + 0).toInt()],
-                  loadLong(ptr + 8 + 8 + 8),
-                  loadLong(ptr + 8 + 8 + 16),
-                  loadShort(ptr + 8 + 8 + 24),
+                  Clockid.values()[(ptr + 8 + 8 + 0).loadInt().toInt()],
+                  (ptr + 8 + 8 + 8).loadLong(),
+                  (ptr + 8 + 8 + 16).loadLong(),
+                  (ptr + 8 + 8 + 24).loadShort(),
               ))
         }
         1 -> {
           SubscriptionU.fd_read(
               SubscriptionFdReadwrite(
-                  loadInt(ptr + 8 + 8 + 0),
+                  (ptr + 8 + 8 + 0).loadInt(),
               ))
         }
         2 -> {
           SubscriptionU.fd_write(
               SubscriptionFdReadwrite(
-                  loadInt(ptr + 8 + 8 + 0),
+                  (ptr + 8 + 8 + 0).loadInt(),
               ))
         }
         else -> error("Invalid variant")
@@ -716,8 +716,8 @@ internal fun __load_Subscription(ptr: Int): Subscription {
   )
 }
 
-internal fun __store_Subscription(x: Subscription, ptr: Int) {
-  storeLong(ptr + 0, x.userdata)
+internal fun __store_Subscription(x: Subscription, ptr: Pointer) {
+  (ptr + 0).storeLong(x.userdata)
   TODO()
 }
 
@@ -827,14 +827,14 @@ data class PrestatDir(
     var pr_name_len: Size,
 )
 
-internal fun __load_PrestatDir(ptr: Int): PrestatDir {
+internal fun __load_PrestatDir(ptr: Pointer): PrestatDir {
   return PrestatDir(
-      loadInt(ptr + 0),
+      (ptr + 0).loadInt(),
   )
 }
 
-internal fun __store_PrestatDir(x: PrestatDir, ptr: Int) {
-  storeInt(ptr + 0, x.pr_name_len)
+internal fun __store_PrestatDir(x: PrestatDir, ptr: Pointer) {
+  (ptr + 0).storeInt(x.pr_name_len)
 }
 
 sealed class Prestat {
@@ -850,7 +850,7 @@ internal fun __unsafe__args_get(
     argv: Pointer /*<Pointer/*<Byte>*/>*/,
     argv_buf: Pointer /*<Byte>*/,
 ): Unit {
-  val ret = _raw_wasm__args_get(argv.toInt(), argv_buf.toInt())
+  val ret = _raw_wasm__args_get(argv.address.toInt(), argv_buf.address.toInt())
   return if (ret == 0) {
     Unit
   } else {
@@ -872,9 +872,11 @@ fun args_sizes_get():
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(4)
     val rp1 = allocator.allocate(4)
-    val ret = _raw_wasm__args_sizes_get(rp0, rp1)
+    val ret = _raw_wasm__args_sizes_get(rp0.address.toInt(), rp1.address.toInt())
     return if (ret == 0) {
-      Pair(loadInt(rp0), loadInt(rp1))
+      Pair(
+          (Pointer(rp0.address.toInt().toUInt())).loadInt(),
+          (Pointer(rp1.address.toInt().toUInt())).loadInt())
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -891,7 +893,7 @@ internal fun __unsafe__environ_get(
     environ: Pointer /*<Pointer/*<Byte>*/>*/,
     environ_buf: Pointer /*<Byte>*/,
 ): Unit {
-  val ret = _raw_wasm__environ_get(environ.toInt(), environ_buf.toInt())
+  val ret = _raw_wasm__environ_get(environ.address.toInt(), environ_buf.address.toInt())
   return if (ret == 0) {
     Unit
   } else {
@@ -913,9 +915,11 @@ fun environ_sizes_get():
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(4)
     val rp1 = allocator.allocate(4)
-    val ret = _raw_wasm__environ_sizes_get(rp0, rp1)
+    val ret = _raw_wasm__environ_sizes_get(rp0.address.toInt(), rp1.address.toInt())
     return if (ret == 0) {
-      Pair(loadInt(rp0), loadInt(rp1))
+      Pair(
+          (Pointer(rp0.address.toInt().toUInt())).loadInt(),
+          (Pointer(rp1.address.toInt().toUInt())).loadInt())
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -940,9 +944,9 @@ fun clock_res_get(
 ): Timestamp {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(8)
-    val ret = _raw_wasm__clock_res_get(id.ordinal, rp0)
+    val ret = _raw_wasm__clock_res_get(id.ordinal, rp0.address.toInt())
     return if (ret == 0) {
-      loadLong(rp0)
+      (Pointer(rp0.address.toInt().toUInt())).loadLong()
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -966,9 +970,9 @@ fun clock_time_get(
 ): Timestamp {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(8)
-    val ret = _raw_wasm__clock_time_get(id.ordinal, precision.toLong(), rp0)
+    val ret = _raw_wasm__clock_time_get(id.ordinal, precision.toLong(), rp0.address.toInt())
     return if (ret == 0) {
-      loadLong(rp0)
+      (Pointer(rp0.address.toInt().toUInt())).loadLong()
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -1063,13 +1067,13 @@ fun fd_fdstat_get(
 ): Fdstat {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(24)
-    val ret = _raw_wasm__fd_fdstat_get(fd.toInt(), rp0)
+    val ret = _raw_wasm__fd_fdstat_get(fd.toInt(), rp0.address.toInt())
     return if (ret == 0) {
       Fdstat(
-          Filetype.values()[loadByte(rp0 + 0).toInt()],
-          loadShort(rp0 + 2),
-          loadLong(rp0 + 8),
-          loadLong(rp0 + 16),
+          Filetype.values()[(Pointer(rp0.address.toInt().toUInt()) + 0).loadByte().toInt()],
+          (Pointer(rp0.address.toInt().toUInt()) + 2).loadShort(),
+          (Pointer(rp0.address.toInt().toUInt()) + 8).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 16).loadLong(),
       )
     } else {
       throw WasiError(Errno.values()[ret])
@@ -1134,17 +1138,17 @@ fun fd_filestat_get(
 ): Filestat {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(64)
-    val ret = _raw_wasm__fd_filestat_get(fd.toInt(), rp0)
+    val ret = _raw_wasm__fd_filestat_get(fd.toInt(), rp0.address.toInt())
     return if (ret == 0) {
       Filestat(
-          loadLong(rp0 + 0),
-          loadLong(rp0 + 8),
-          Filetype.values()[loadByte(rp0 + 16).toInt()],
-          loadLong(rp0 + 24),
-          loadLong(rp0 + 32),
-          loadLong(rp0 + 40),
-          loadLong(rp0 + 48),
-          loadLong(rp0 + 56),
+          (Pointer(rp0.address.toInt().toUInt()) + 0).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 8).loadLong(),
+          Filetype.values()[(Pointer(rp0.address.toInt().toUInt()) + 16).loadByte().toInt()],
+          (Pointer(rp0.address.toInt().toUInt()) + 24).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 32).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 40).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 48).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 56).loadLong(),
       )
     } else {
       throw WasiError(Errno.values()[ret])
@@ -1223,9 +1227,13 @@ internal fun __unsafe__fd_pread(
   val rp0 = allocator.allocate(4)
   val ret =
       _raw_wasm__fd_pread(
-          fd.toInt(), allocator.writeToLinearMemory(iovs), iovs.size, offset.toLong(), rp0)
+          fd.toInt(),
+          allocator.writeToLinearMemory(iovs).address.toInt(),
+          iovs.size,
+          offset.toLong(),
+          rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1241,13 +1249,13 @@ fun fd_prestat_get(
 ): Prestat {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(8)
-    val ret = _raw_wasm__fd_prestat_get(fd.toInt(), rp0)
+    val ret = _raw_wasm__fd_prestat_get(fd.toInt(), rp0.address.toInt())
     return if (ret == 0) {
-      when (loadByte(rp0).toInt()) {
+      when ((Pointer(rp0.address.toInt().toUInt())).loadByte().toInt()) {
         0 -> {
           Prestat.dir(
               PrestatDir(
-                  loadInt(rp0 + 4 + 0),
+                  (Pointer(rp0.address.toInt().toUInt()) + 4 + 0).loadInt(),
               ))
         }
         else -> error("Invalid variant")
@@ -1269,7 +1277,7 @@ internal fun __unsafe__fd_prestat_dir_name(
     path: Pointer /*<Byte>*/,
     path_len: Size,
 ): Unit {
-  val ret = _raw_wasm__fd_prestat_dir_name(fd.toInt(), path.toInt(), path_len.toInt())
+  val ret = _raw_wasm__fd_prestat_dir_name(fd.toInt(), path.address.toInt(), path_len.toInt())
   return if (ret == 0) {
     Unit
   } else {
@@ -1299,9 +1307,13 @@ internal fun __unsafe__fd_pwrite(
   val rp0 = allocator.allocate(4)
   val ret =
       _raw_wasm__fd_pwrite(
-          fd.toInt(), allocator.writeToLinearMemory(iovs), iovs.size, offset.toLong(), rp0)
+          fd.toInt(),
+          allocator.writeToLinearMemory(iovs).address.toInt(),
+          iovs.size,
+          offset.toLong(),
+          rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1322,9 +1334,14 @@ internal fun __unsafe__fd_read(
     iovs: __unsafe__IovecArray,
 ): Size {
   val rp0 = allocator.allocate(4)
-  val ret = _raw_wasm__fd_read(fd.toInt(), allocator.writeToLinearMemory(iovs), iovs.size, rp0)
+  val ret =
+      _raw_wasm__fd_read(
+          fd.toInt(),
+          allocator.writeToLinearMemory(iovs).address.toInt(),
+          iovs.size,
+          rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1356,9 +1373,11 @@ internal fun __unsafe__fd_readdir(
     cookie: Dircookie,
 ): Size {
   val rp0 = allocator.allocate(4)
-  val ret = _raw_wasm__fd_readdir(fd.toInt(), buf.toInt(), buf_len.toInt(), cookie.toLong(), rp0)
+  val ret =
+      _raw_wasm__fd_readdir(
+          fd.toInt(), buf.address.toInt(), buf_len.toInt(), cookie.toLong(), rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1407,9 +1426,9 @@ fun fd_seek(
 ): Filesize {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(8)
-    val ret = _raw_wasm__fd_seek(fd.toInt(), offset, whence.ordinal, rp0)
+    val ret = _raw_wasm__fd_seek(fd.toInt(), offset, whence.ordinal, rp0.address.toInt())
     return if (ret == 0) {
-      loadLong(rp0)
+      (Pointer(rp0.address.toInt().toUInt())).loadLong()
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -1445,9 +1464,9 @@ fun fd_tell(
 ): Filesize {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(8)
-    val ret = _raw_wasm__fd_tell(fd.toInt(), rp0)
+    val ret = _raw_wasm__fd_tell(fd.toInt(), rp0.address.toInt())
     return if (ret == 0) {
-      loadLong(rp0)
+      (Pointer(rp0.address.toInt().toUInt())).loadLong()
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -1465,9 +1484,14 @@ internal fun __unsafe__fd_write(
     iovs: __unsafe__CiovecArray,
 ): Size {
   val rp0 = allocator.allocate(4)
-  val ret = _raw_wasm__fd_write(fd.toInt(), allocator.writeToLinearMemory(iovs), iovs.size, rp0)
+  val ret =
+      _raw_wasm__fd_write(
+          fd.toInt(),
+          allocator.writeToLinearMemory(iovs).address.toInt(),
+          iovs.size,
+          rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1484,7 +1508,8 @@ fun path_create_directory(
 ): Unit {
   withScopedMemoryAllocator { allocator ->
     val ret =
-        _raw_wasm__path_create_directory(fd.toInt(), allocator.writeToLinearMemory(path), path.size)
+        _raw_wasm__path_create_directory(
+            fd.toInt(), allocator.writeToLinearMemory(path).address.toInt(), path.size)
     return if (ret == 0) {
       Unit
     } else {
@@ -1512,17 +1537,21 @@ fun path_filestat_get(
     val rp0 = allocator.allocate(64)
     val ret =
         _raw_wasm__path_filestat_get(
-            fd.toInt(), flags.toInt(), allocator.writeToLinearMemory(path), path.size, rp0)
+            fd.toInt(),
+            flags.toInt(),
+            allocator.writeToLinearMemory(path).address.toInt(),
+            path.size,
+            rp0.address.toInt())
     return if (ret == 0) {
       Filestat(
-          loadLong(rp0 + 0),
-          loadLong(rp0 + 8),
-          Filetype.values()[loadByte(rp0 + 16).toInt()],
-          loadLong(rp0 + 24),
-          loadLong(rp0 + 32),
-          loadLong(rp0 + 40),
-          loadLong(rp0 + 48),
-          loadLong(rp0 + 56),
+          (Pointer(rp0.address.toInt().toUInt()) + 0).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 8).loadLong(),
+          Filetype.values()[(Pointer(rp0.address.toInt().toUInt()) + 16).loadByte().toInt()],
+          (Pointer(rp0.address.toInt().toUInt()) + 24).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 32).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 40).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 48).loadLong(),
+          (Pointer(rp0.address.toInt().toUInt()) + 56).loadLong(),
       )
     } else {
       throw WasiError(Errno.values()[ret])
@@ -1552,7 +1581,7 @@ fun path_filestat_set_times(
         _raw_wasm__path_filestat_set_times(
             fd.toInt(),
             flags.toInt(),
-            allocator.writeToLinearMemory(path),
+            allocator.writeToLinearMemory(path).address.toInt(),
             path.size,
             atim.toLong(),
             mtim.toLong(),
@@ -1585,10 +1614,10 @@ fun path_link(
         _raw_wasm__path_link(
             old_fd.toInt(),
             old_flags.toInt(),
-            allocator.writeToLinearMemory(old_path),
+            allocator.writeToLinearMemory(old_path).address.toInt(),
             old_path.size,
             new_fd.toInt(),
-            allocator.writeToLinearMemory(new_path),
+            allocator.writeToLinearMemory(new_path).address.toInt(),
             new_path.size)
     return if (ret == 0) {
       Unit
@@ -1638,15 +1667,15 @@ fun path_open(
         _raw_wasm__path_open(
             fd.toInt(),
             dirflags.toInt(),
-            allocator.writeToLinearMemory(path),
+            allocator.writeToLinearMemory(path).address.toInt(),
             path.size,
             oflags.toInt(),
             fs_rights_base.toLong(),
             fs_rights_inheriting.toLong(),
             fdflags.toInt(),
-            rp0)
+            rp0.address.toInt())
     return if (ret == 0) {
-      loadInt(rp0)
+      (Pointer(rp0.address.toInt().toUInt())).loadInt()
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -1674,13 +1703,13 @@ internal fun __unsafe__path_readlink(
   val ret =
       _raw_wasm__path_readlink(
           fd.toInt(),
-          allocator.writeToLinearMemory(path),
+          allocator.writeToLinearMemory(path).address.toInt(),
           path.size,
-          buf.toInt(),
+          buf.address.toInt(),
           buf_len.toInt(),
-          rp0)
+          rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1700,7 +1729,8 @@ fun path_remove_directory(
 ): Unit {
   withScopedMemoryAllocator { allocator ->
     val ret =
-        _raw_wasm__path_remove_directory(fd.toInt(), allocator.writeToLinearMemory(path), path.size)
+        _raw_wasm__path_remove_directory(
+            fd.toInt(), allocator.writeToLinearMemory(path).address.toInt(), path.size)
     return if (ret == 0) {
       Unit
     } else {
@@ -1726,10 +1756,10 @@ fun path_rename(
     val ret =
         _raw_wasm__path_rename(
             fd.toInt(),
-            allocator.writeToLinearMemory(old_path),
+            allocator.writeToLinearMemory(old_path).address.toInt(),
             old_path.size,
             new_fd.toInt(),
-            allocator.writeToLinearMemory(new_path),
+            allocator.writeToLinearMemory(new_path).address.toInt(),
             new_path.size)
     return if (ret == 0) {
       Unit
@@ -1753,10 +1783,10 @@ fun path_symlink(
   withScopedMemoryAllocator { allocator ->
     val ret =
         _raw_wasm__path_symlink(
-            allocator.writeToLinearMemory(old_path),
+            allocator.writeToLinearMemory(old_path).address.toInt(),
             old_path.size,
             fd.toInt(),
-            allocator.writeToLinearMemory(new_path),
+            allocator.writeToLinearMemory(new_path).address.toInt(),
             new_path.size)
     return if (ret == 0) {
       Unit
@@ -1780,7 +1810,8 @@ fun path_unlink_file(
 ): Unit {
   withScopedMemoryAllocator { allocator ->
     val ret =
-        _raw_wasm__path_unlink_file(fd.toInt(), allocator.writeToLinearMemory(path), path.size)
+        _raw_wasm__path_unlink_file(
+            fd.toInt(), allocator.writeToLinearMemory(path).address.toInt(), path.size)
     return if (ret == 0) {
       Unit
     } else {
@@ -1807,9 +1838,11 @@ internal fun __unsafe__poll_oneoff(
     nsubscriptions: Size,
 ): Size {
   val rp0 = allocator.allocate(4)
-  val ret = _raw_wasm__poll_oneoff(in_.toInt(), out.toInt(), nsubscriptions.toInt(), rp0)
+  val ret =
+      _raw_wasm__poll_oneoff(
+          in_.address.toInt(), out.address.toInt(), nsubscriptions.toInt(), rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1879,7 +1912,7 @@ internal fun __unsafe__random_get(
     buf: Pointer /*<Byte>*/,
     buf_len: Size,
 ): Unit {
-  val ret = _raw_wasm__random_get(buf.toInt(), buf_len.toInt())
+  val ret = _raw_wasm__random_get(buf.address.toInt(), buf_len.toInt())
   return if (ret == 0) {
     Unit
   } else {
@@ -1903,9 +1936,9 @@ fun sock_accept(
 ): Fd {
   withScopedMemoryAllocator { allocator ->
     val rp0 = allocator.allocate(4)
-    val ret = _raw_wasm__sock_accept(fd.toInt(), flags.toInt(), rp0)
+    val ret = _raw_wasm__sock_accept(fd.toInt(), flags.toInt(), rp0.address.toInt())
     return if (ret == 0) {
-      loadInt(rp0)
+      (Pointer(rp0.address.toInt().toUInt())).loadInt()
     } else {
       throw WasiError(Errno.values()[ret])
     }
@@ -1939,13 +1972,15 @@ internal fun __unsafe__sock_recv(
   val ret =
       _raw_wasm__sock_recv(
           fd.toInt(),
-          allocator.writeToLinearMemory(ri_data),
+          allocator.writeToLinearMemory(ri_data).address.toInt(),
           ri_data.size,
           ri_flags.toInt(),
-          rp0,
-          rp1)
+          rp0.address.toInt(),
+          rp1.address.toInt())
   return if (ret == 0) {
-    Pair(loadInt(rp0), loadShort(rp1))
+    Pair(
+        (Pointer(rp0.address.toInt().toUInt())).loadInt(),
+        (Pointer(rp1.address.toInt().toUInt())).loadShort())
   } else {
     throw WasiError(Errno.values()[ret])
   }
@@ -1973,9 +2008,13 @@ internal fun __unsafe__sock_send(
   val rp0 = allocator.allocate(4)
   val ret =
       _raw_wasm__sock_send(
-          fd.toInt(), allocator.writeToLinearMemory(si_data), si_data.size, si_flags.toInt(), rp0)
+          fd.toInt(),
+          allocator.writeToLinearMemory(si_data).address.toInt(),
+          si_data.size,
+          si_flags.toInt(),
+          rp0.address.toInt())
   return if (ret == 0) {
-    loadInt(rp0)
+    (Pointer(rp0.address.toInt().toUInt())).loadInt()
   } else {
     throw WasiError(Errno.values()[ret])
   }

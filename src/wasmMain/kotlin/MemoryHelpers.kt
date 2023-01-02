@@ -16,27 +16,28 @@ internal val String.size: Int
 
 const val PTR_SIZE = 4
 
-internal fun readZeroTerminatedString(ptr: Int, byteArray: ByteArray): Int {
+// Returns size of byte array
+internal fun readZeroTerminatedByteArray(ptr: Pointer, byteArray: ByteArray): Int {
     for (i in 0 until byteArray.size) {
-        val b = loadByte(ptr + i)
+        val b = (ptr + i).loadByte()
         if (b.toInt() == 0)
             return i
         byteArray[i] = b
     }
-    error("Zero-terminated string is out of bounds")
+    error("Zero-terminated array is out of bounds")
 }
 
-internal fun MemoryAllocator.writeToLinearMemory(array: ByteArray): Int {
+internal fun MemoryAllocator.writeToLinearMemory(array: ByteArray): Pointer {
     val ptr = allocate(array.size)
     var currentPtr = ptr
     for (el in array) {
-        storeByte(currentPtr, el)
-        currentPtr++
+        currentPtr.storeByte(el)
+        currentPtr += 1
     }
     return ptr
 }
 
-internal fun MemoryAllocator.writeToLinearMemory(array: __unsafe__IovecArray): Int {
+internal fun MemoryAllocator.writeToLinearMemory(array: __unsafe__IovecArray): Pointer {
     val ptr = allocate(array.size * 8)
     var currentPtr = ptr
     for (el in array) {
@@ -46,7 +47,7 @@ internal fun MemoryAllocator.writeToLinearMemory(array: __unsafe__IovecArray): I
     return ptr
 }
 
-internal fun MemoryAllocator.writeToLinearMemory(array: __unsafe__CiovecArray): Int {
+internal fun MemoryAllocator.writeToLinearMemory(array: __unsafe__CiovecArray): Pointer {
     val ptr = allocate(array.size * 8)
     var currentPtr = ptr
     for (el in array) {
@@ -56,20 +57,20 @@ internal fun MemoryAllocator.writeToLinearMemory(array: __unsafe__CiovecArray): 
     return ptr
 }
 
-internal fun MemoryAllocator.writeToLinearMemory(string: String): Int =
+internal fun MemoryAllocator.writeToLinearMemory(string: String): Pointer =
     writeToLinearMemory(string.encodeToByteArray())
 
-data class LinearMemoryString(val addr: Pointer, val size: Int)
+data class LinearMemoryString(val pointer: Pointer, val size: Int)
 
 internal fun MemoryAllocator.toMem(s: String): LinearMemoryString {
     val array = s.encodeToByteArray()
     return LinearMemoryString(writeToLinearMemory(array), array.size)
 }
 
-internal fun loadByteArray(addr: Int, size: Int): ByteArray =
-    ByteArray(size) { i -> loadByte(addr + i) }
+internal fun loadByteArray(addr: Pointer, size: Int): ByteArray =
+    ByteArray(size) { i -> (addr + i).loadByte() }
 
-internal fun loadString(addr: Int, size: Int): String {
+internal fun loadString(addr: Pointer, size: Int): String {
     val bytes = loadByteArray(addr, size)
     val endIndex =
         if (size != 0 && bytes[size - 1] == 0.toByte())

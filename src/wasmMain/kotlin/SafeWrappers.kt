@@ -19,9 +19,9 @@ fun args_get(): List<String> {
         __unsafe__args_get(allocator, argv, argv_buf)
         val result = mutableListOf<String>()
         repeat(numArgs) { idx ->
-            val argv_ptr = argv.value + idx * PTR_SIZE
-            var ptr = loadInt(argv_ptr)
-            val endIndex = readZeroTerminatedString(ptr, byteArrayBuf)
+            val argv_ptr = argv + idx * PTR_SIZE
+            var ptr = Pointer(argv_ptr.loadInt().toUInt())
+            val endIndex = readZeroTerminatedByteArray(ptr, byteArrayBuf)
             val str = byteArrayBuf.decodeToString(endIndex = endIndex)
             result += str
         }
@@ -41,9 +41,9 @@ fun environ_get(): Map<String, String> {
         __unsafe__environ_get(allocator, environ, environ_buf)
         val result = mutableMapOf<String, String>()
         repeat(numArgs) { idx ->
-            val environ_ptr = environ.value + idx * PTR_SIZE
-            var ptr = loadInt(environ_ptr)
-            val endIdx = readZeroTerminatedString(ptr, tmpByteArray)
+            val environ_ptr = environ + idx * PTR_SIZE
+            var ptr = Pointer(environ_ptr.loadInt().toUInt())
+            val endIdx = readZeroTerminatedByteArray(ptr, tmpByteArray)
             val str = tmpByteArray.decodeToString(endIndex = endIdx)
             val (key, value) = str.split("=", limit = 2)
             result[key] = value
