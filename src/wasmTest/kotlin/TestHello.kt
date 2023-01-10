@@ -56,15 +56,3 @@ class WasiTests {
         }
     }
 }
-
-@JsFun("""
-await (async () => {
-    let { wasi } = await import('wasi_snapshot_preview1');
-    return () => { wasi.initialize(wasmInstance); }
-})()
-""")
-external fun initializeNodeWasi()
-
-fun main() {
-    initializeNodeWasi()
-}

@@ -15,5 +15,7 @@ Needs a fresh [kotlin](https://github.com/JetBrains/kotlin) installed to maven l
 
 
 ```
-./gradlew wasmTest
+./gradlew compileTestProductionExecutableKotlinWasm
+# Node version v20.0.0-v8-canary2022112061c569ba0d
+node --experimental-wasi-unstable-preview1 --experimental-wasm-gc runner.mjs
 ```
